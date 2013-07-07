@@ -1,0 +1,154 @@
+/*
+----------------
+Global elements
+----------------
+*/
+.container {
+    /*background-color: lightsalmon;*/
+}
+.notification {
+    position: fixed;
+    right: 15px;
+        top: 30px;
+}
+#noti {
+    position: fixed;
+    right: 15px;
+    top: 30px;
+}
+#mainNav {
+    margin-top: 100px;    
+}
+#titleContainer {
+    border: 1px solid black;
+    text-align: center;
+    margin-top:30px;
+    position:absolute;
+    left:20px;
+}
+#titleName {
+    border-bottom: 1px solid black;
+}
+li {
+    list-style: none;
+}
+/* 
+-------------------------------------------------------------------------------
+Project elements
+-------------------------------------------------------------------------------
+*/
+.projectBorder {
+    background-color: lightblue;
+}
+#projectsContainer {
+    background-color: white;
+    margin-top: 30px;
+
+}
+.projectBorder {
+    margin-top: 5px;
+    border: 1px solid black;
+}
+.projectMenu {
+
+    border-top: 1px solid black;
+    /*margin-top: 5px;*/
+    height: 40px;
+}
+
+.forProjectName {
+    text-align: center;
+    border-right: 1px solid black;
+    border-left: 1px solid black;
+    height: 40px;
+    padding-top: 5px;
+    
+}
+.saveChanges {
+    position: relative;
+    
+    bottom: 5px;
+}
+.projectAction {
+    margin-top: 5px;
+}
+
+
+/*
+-------------
+Task elements
+-------------
+*/
+
+.taskMenu {
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    padding-top: 5px;
+    height: 40px;
+}
+
+.inputName {
+    border-top: 1px solid black;
+    width: 80%;
+}
+.inputDate {
+    border-top: 1px solid black;   
+    width: 80%;
+    position: relative;
+    left: 10px;
+}
+.add {
+
+    width: 80%;
+}
+.text {
+    padding-left: 20px;
+}
+
+.checkColumn {
+    padding-left: 20px;
+    border-right: 1px solid black;
+    /*height: 30px;*/
+}
+.taskTitle {
+    text-align: center;
+    border-right: 1px solid black;
+}
+.taskDate {
+    padding-left: 0px;
+    border-right: 1px solid black;
+    text-align: center;
+    position: relative;
+    left: -20px;
+}
+.taskAction {
+    position: relative;
+    left: -20px;
+}
+.taskRow {
+    border-bottom: 1px solid black;
+    position: relative;
+    left: -20px;
+    height: 30px;
+}
+.taskRow div {
+    height: 30px;
+}
+.saveTaskChanges {
+    position: relative;
+    left: 20px;
+    height: 30px;
+    margin-bottom: 12px;
+    
+}
+#editTaskForm {
+    height: 30px;
+    position: relative;
+   top: -1px;
+}
+.nonVisible {
+    height: 0px;
+}
+.visible {
+    height: auto;
+}
