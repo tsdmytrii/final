@@ -10,7 +10,7 @@ steal(
     'components/jquery_ui',
     'components/jquery-validate/jquery.validate.js',
     'components/jquery-validate/additional-methods.js'
-    
-    ).then(
+
+).then(
     './controllers/projects.js'
- )
+)

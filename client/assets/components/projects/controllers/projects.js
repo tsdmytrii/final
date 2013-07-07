@@ -3,32 +3,32 @@ steal('jquery').then(function ($) {
     $.Controller('Projects', {
         'viewpath': '//components/projects/views/'
     }, {
-        
+
         init: function () {
             /*
-             * @param {string} window.closedSwitcher set closed(=0) 
+             * @param {string} window.closedSwitcher set closed(=0)
              * or active(=1) projects will be shown
-            */
+             */
             window.closedSwitcher = 0;
             /* 
-             * @param {string} window.projectIdentifier set id of project 
+             * @param {string} window.projectIdentifier set id of project
              * if id = 0, then all project will be shown,
              * if id = any other number, only one project wi this ID will be shown
              */
             window.projectIdentifier = $('.container').data('project-identifier');
-            
-            
-          
+
+
+
         },
-      
+
         //new project create button
-        '#addProject click': function(element, event) {
+        '#addProject click': function (element, event) {
             var that = this;
             //hide name of project and show input instead of it
             $('#addProject').hide();
             $('#newProject').show();
             $('#newProject').removeAttr('novalidate');
-            
+
             //validate input with project name
             $('#newProject').validate({
                 debug: true,
@@ -42,24 +42,18 @@ steal('jquery').then(function ($) {
                 },
                 messages: {
                     projectName: {
-                        required: "<div class='alert alert-error fade in'>" +
-                        "<button data-dismiss='alert' class='close' type='button'>&times;</button>" 
-                        + "Please enter project name" + "</div>",
-                        minlength: "<div class='alert alert-error fade in'>" +
-                        "<button data-dismiss='alert' class='close' type='button'>&times;</button>" 
-                        + "At least 2 characters required!" + "</div>",
-                        maxlength: "<div class='alert alert-error fade in'>" +
-                    "<button data-dismiss='alert' class='close' type='button'>&times;</button>" 
-                    + "Project name must be shorter than 100 symbols!" + "</div>"
+                        required: "<div class='alert alert-error fade in'>" + "<button data-dismiss='alert' class='close' type='button'>&times;</button>" + "Please enter project name" + "</div>",
+                        minlength: "<div class='alert alert-error fade in'>" + "<button data-dismiss='alert' class='close' type='button'>&times;</button>" + "At least 2 characters required!" + "</div>",
+                        maxlength: "<div class='alert alert-error fade in'>" + "<button data-dismiss='alert' class='close' type='button'>&times;</button>" + "Project name must be shorter than 100 symbols!" + "</div>"
                     }
                 },
                 errorLabelContainer: "#validateErrors",
-                
+
                 //on valid name
                 submitHandler: function () {
                     ProjectsModel.addProject($('#newProject').serialize(), function (data) {
                         that.publish('project.added', {
-                            status:data['status']
+                            status: data['status']
                         })
                     });
                     //reset form for another new project and hide
@@ -73,19 +67,19 @@ steal('jquery').then(function ($) {
                 }
             })
         },
-       
+
         //load active projects if active tab is presses or its default loading
         'active.loaded subscribe': function () {
             window.closedSwitcher = 0;
             this.loadProjects();
         },
-        
+
         //load closed projects only if Closed pressed
         'closed.loaded subscribe': function () {
             window.closedSwitcher = 1;
             this.loadProjects();
         },
-        
+
         //edit name for exist project 
         '.editProject click': function (el, ev) {
             var projectId = el.data('project-id');
@@ -97,7 +91,7 @@ steal('jquery').then(function ($) {
             <input type="hidden" name="closed" value=' + 0 + '>\n\
             <input type="text" name="projectName" value=' + fieldValue + '>\n\
             <input type="submit" class="saveChanges" value="save" name="submit"></form>');
-            
+
             //validate rules for rename project name
             $('.projectForm').validate({
                 debug: true,
@@ -120,22 +114,22 @@ steal('jquery').then(function ($) {
 
                 //on submit success
                 submitHandler: function () {
-                 
+
                     ProjectsModel.changeName($('#editProjectForm').serialize(), function (data) {
                         $('.forProjectName#' + projectId).empty().append(data['name']);
                         that.publish('project.edited', {
                             status: data['status']
                         })
                     });
-                    
+
                 }
             });
         },
-        
-        '.moveProject click': function(element, event) {
+
+        '.moveProject click': function (element, event) {
             var projectId = el.data('project-id');
             alert(projectId)
-            $('.forTask'+projectId).hide();
+            $('.forTask' + projectId).hide();
         },
         //get all projects
         loadProjects: function () {
@@ -144,7 +138,7 @@ steal('jquery').then(function ($) {
                 that.renderProjects(data);
             });
         },
-        
+
         //render all projects, from loadProjects callback
         renderProjects: function (data) {
             var that = this;
@@ -165,7 +159,7 @@ steal('jquery').then(function ($) {
             }
 
         },
-        
+
         // update 'closed' property of project
         '.closeProject click': function (el, ev) {
             var projectId = el.data('project-id');
@@ -176,12 +170,12 @@ steal('jquery').then(function ($) {
                 })
             })
         },
-        
+
         //delete from DOM if Active tab is on 
         'project.closed subscribe': function (called, data) {
             this.deleteProjectFromDom(data.id)
         },
-        
+
         //change 'delete' property of project.
         //Poroject stays in database, but not shown any more
         '.delete click': function (el, ev) {
@@ -196,22 +190,22 @@ steal('jquery').then(function ($) {
                 })
             }
         },
-        
+
         //delete project only from DOM, not from database
         'project.deleted subscribe': function (called, data) {
             this.deleteProjectFromDom(data.id)
         },
-        
+
         'deleteProjectFromDom': function (id) {
             $('a[data-project-id=' + id + ']').parent('div').parent('div').parent('li').remove();
         }
     });
 
     $.Model('ProjectsModel', {
-        
-        addProject: function(data, cb) {
+
+        addProject: function (data, cb) {
             $.ajax({
-                url: 'http://localhost/final/server/projects_rest/projects/'+closedSwitcher,
+                url: 'http://localhost/final/server/projects_rest/projects/' + closedSwitcher,
                 dataType: 'json',
                 data: data,
                 'type': 'POST',
@@ -219,21 +213,21 @@ steal('jquery').then(function ($) {
                 error: this.callback(cb)
             });
         },
-        
+
         // Gets projects. Depends on closedSwitcher and projectIdentidier
         // 
         // For more information look at variable description at the 
         // begining of the page
         getProjects: function (cb) {
             $.ajax({
-                url: 'http://localhost/final/server/projects_rest/projects/' + closedSwitcher +'/'+ projectIdentifier,
+                url: 'http://localhost/final/server/projects_rest/projects/' + closedSwitcher + '/' + projectIdentifier,
                 dataType: 'json',
                 'type': 'get',
                 success: this.callback(cb),
                 error: this.callback(cb)
             });
         },
-        
+
         //simple delete by id
         deleteProject: function (id, cb) {
             $.ajax({
@@ -244,7 +238,7 @@ steal('jquery').then(function ($) {
                 error: this.callback(cb)
             });
         },
-        
+
         //change close property of the project
         closeProject: function (id, cb) {
             var data = new Array();
