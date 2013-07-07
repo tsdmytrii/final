@@ -1,0 +1,49 @@
+{{each $data.projects}}
+ 
+<li class="ui-state-default projectBorder">
+<div class="projectMenu">
+                      
+                        <div class="span1 closeCell"> 
+
+                            <icon class="icon-remove"> </icon> 
+                            <a class="closeProject" href="#" data-project-id="${$value.id}"> Close </a>
+
+                        </div>
+                        <div class="span7 forProjectName" id="${$value.id}">
+
+                            ${$value.name}
+
+                        </div>
+                        <div class="span3 projectAction">
+                           
+                            <a data-project-id="${$value.id}" class="btn moveProject"> <icon class="icon-resize-vertical"></icon></a> 
+                            <a data-project-id="${$value.id}" class="btn editProject"> <icon class="icon-edit"></icon> Edit </a>
+                            <a data-project-id="${$value.id}" class="btn delete"> <icon class="icon-remove-sign"></icon> Remove </a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="span12 taskMenu">
+                            <form class="form" id="taskForm">
+                                <fieldset>
+                                <input type="hidden" value="${$value.id}" name="id"/>
+                                <div class="span6">
+                                <input id="name" type="text" class="inputName taskInputs" name="name" placeholder="Add task name"/>
+                                </div> 
+                                <div class="span2">   
+                                <input id="deadlineDate" type="date" class="inputDate taskInputs" placeholder="Date yyyy-mm-dd" name="deadlineDate"/>
+                                </div>
+                                <div class="span3">    
+                                <input class="btn add" type="submit" value="Add task"/>
+                                </div>
+                                </fieldset>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <ul id="sortable1" class="span12 forTasks${$value.id}" data-taks-id="${$value.id}">
+                        
+                        </ul>
+                    </div>
+</div>
+                </li>
+{{/each}}

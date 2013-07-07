@@ -1,0 +1,26 @@
+{{each $data.task}}
+<div class="span12 taskRow">
+<li class="span12 taskRow" id="taskRow${$value.id}">
+                                <div class="span1 checkColumn"> 
+                                    <label class="checkbox">
+                                        <input class="inputCheckbox" type="checkbox">
+                                    </label> 
+                                </div>
+
+                                <div id="${$value.id}" class="span5 taskTitle taskTitle${$value.id}"> 
+                                    ${$value.name}
+                                </div>
+
+                                <div  class="span2 taskDate taskDate${$value.id}"> 
+                                    ${$value.deadlineDate}
+                                </div>
+
+                                <div id="${$value.id}" class="span3 taskAction taskAction${$value.id}">
+                                    <a data-task-id="${$value.id}" class="btn"> <icon class="icon-resize-vertical"></icon></a>
+                                    <a data-task-id="${$value.id}" class="btn taskEdit"> <icon class="icon-edit"></icon> Edit </a>
+                                    <a data-task-id="${$value.id}" class="btn remove"> <icon class="icon-remove-sign"></icon> Remove </a>
+                                </div>
+</li>
+<li class="span12 nonVisible" id="editRow${$value.id}"></li>
+</div>
+{{/each}}
