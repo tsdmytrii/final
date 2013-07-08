@@ -39,9 +39,14 @@ class Projects_rest extends REST_Controller {
      * Class method
      * 
      * @todo  get projects from database,
-     *  has 2 params, $closed - so it can get filter by closed status
-     * and param $id - if $id = 0, it returns all row,
+     *  has 5 params, $closed - so it can get filter by closed status
+     * and param $id - if $id = 0(default), it returns all row,
      * on other hand it returns only project with exact ID
+     * $cookie - check if ajax call from webpage or not, default 0 will be 
+     * changed if request will be from page
+     * $order - column for order
+     * $direction - direction of order
+     * 
      */
     public function projects_get($id = 0, $closed = null, $cookie = 0, $order = 'creationDate', $direction = 'ask') {
 

@@ -3,7 +3,7 @@ steal('jquery').then(function ($) {
     $.Controller('Projects', {
         'viewpath': '//components/projects/views/'
     }, {
-
+        
         init: function () {
             /*
              * @param {string} window.closedSwitcher set closed(=0)
@@ -20,8 +20,16 @@ steal('jquery').then(function ($) {
             //validator for names
             $.validator.addMethod("nameFormat", function(value, element) {
                 return value.match(/^[a-z0-9\-\s]+$/);
-            }, "Name must contain only letters, numbers, or dashes.");
+            }, "<div class='alert alert-error fade in'>" + "<button data-dismiss='alert' class='close' type='button'>&times;</button>" + "Name must contain only letters, numbers, or dashes." + "</div>"
+            );
 
+            $('#searchForm').validate({
+                rules: {
+                    search: {
+                        minlength: 1
+                    }
+                }
+            });
         },
         
         //order projects by custom rules
@@ -78,9 +86,9 @@ steal('jquery').then(function ($) {
                 },
                 messages: {
                     projectName: {
-                        required: "<div class='alert alert-error fade in'>" + "<button data-dismiss='alert' class='close' type='button'>&times;</button>" + "Please enter project name" + "</div>",
-                        minlength: "<div class='alert alert-error fade in'>" + "<button data-dismiss='alert' class='close' type='button'>&times;</button>" + "At least 2 characters required!" + "</div>",
-                        maxlength: "<div class='alert alert-error fade in'>" + "<button data-dismiss='alert' class='close' type='button'>&times;</button>" + "Project name must be shorter than 100 symbols!" + "</div>"
+                        required: that.errorsBeautyfier("Enter projecst name, please"),
+                        minlength: that.errorsBeautyfier("At least 2 characters required!"),
+                        maxlength: that.errorsBeautyfier("Project name must be shorter than 100 symbols!")
                     }
                 },
                 errorLabelContainer: "#validateErrors",
@@ -142,9 +150,9 @@ steal('jquery').then(function ($) {
                 },
                 messages: {
                     projectName: {
-                        required: "<div class='alert alert-error fade in'>" + "<button data-dismiss='alert' class='close' type='button'>&times;</button>" + "Enter project name, please!" + "</div>",
-                        minlength: "<div class='alert alert-error fade in'>" + "<button data-dismiss='alert' class='close' type='button'>&times;</button>" + "At least 2 characters required!" + "</div>",
-                        maxlength: "<div class='alert alert-error fade in'>" + "<button data-dismiss='alert' class='close' type='button'>&times;</button>" + "Project name must be shorter than 100 symbols!" + "</div>"
+                        required: that.errorsBeautyfier("Enter project name, please!"),
+                        minlength: that.errorsBeautyfier("At least 2 characters required!"),
+                        maxlength: that.errorsBeautyfier("Project name must be shorter than 100 symbols!")
                     }
                 },
                 errorLabelContainer: "#validateErrors",
@@ -238,7 +246,11 @@ steal('jquery').then(function ($) {
 
         'deleteProjectFromDom': function (id) {
             $('a[data-project-id=' + id + ']').parent('div').parent('div').parent('li').remove();
+        },
+        errorsBeautyfier: function(text) {
+            return "<div class='alert alert-error fade in'>" + "<button data-dismiss='alert' class='close' type='button'>&times;</button>" + text + "</div>"
         }
+        
     });
 
     $.Model('ProjectsModel', {

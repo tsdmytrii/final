@@ -17,8 +17,7 @@ steal('jquery').then(function ($) {
             // identificator of sending request from site
             
             $("#sortable").sortable();
-            //  $( "#sortable" ).disableSelection();
-        },
+            },
 
         //activate Active tab with active projects
         '#activeTab click': function () {

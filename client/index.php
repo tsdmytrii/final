@@ -25,8 +25,6 @@
                 $('body').notificat(); 
                 $('body').tabs();
                 $('#newProject').hide();                
-                
-                
             });
         </script>
     </head>
@@ -58,7 +56,7 @@
                     <a id="activeTab" class="btn" href="#"> Active </a>
                     <a id="closedTab" class="btn" href="#"> Closed </a>
                 </div>
-               <div class="span4">
+                <div class="span4">
                     <form id="orderForm" class="form-inline">
 
                         <select id="orders" class="span2">
@@ -72,22 +70,22 @@
                         </select>
 
                         <input class="btn" type="submit" value="order" id="order"> 
-                        
+
                     </form> 
-                   </div>
-                   <div class="span6">
+                </div>
+                <div class="span6">
                     <form id="searchForm" class="form-inline">
-                       <select id="searchList" class="span2">
+                        <select id="searchList" class="span2">
                             <option> name </option>
                             <option> id </option>
                             <option> creationDate </option>
                         </select>
-                        <input class="span1" type="text" placeholder="Property value" name="search" id="searchInput"> 
+                        <input class="" type="text" placeholder="Property value" name="search" id="searchInput"> 
                         <input class="btn" type="submit" value="search" id="searchBtn"> 
                         <button id="resetBtn" class="btn"> Cancel search filter</button>
                     </form>
-                       
-                  </div>
+
+                </div>
 
                 <!--for projects-->
                 <ul class="span12" id="sortable">

@@ -32,6 +32,12 @@ Global elements
 li {
     list-style: none;
 }
+#searchInput {
+    width: 95px;
+}
+#searchList {
+    width: 115px;
+}
 /* 
 -------------------------------------------------------------------------------
 Project elements
