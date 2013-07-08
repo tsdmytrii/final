@@ -187,7 +187,7 @@ steal('jquery').then(function ($) {
         //render all projects, from loadProjects callback
         renderProjects: function (data) {
             var that = this;
-            console.log(data);
+            
             if (data['status'] !== 404) {
                 $('#sortable').fadeOut(function () {
                     var idProject = data.id;

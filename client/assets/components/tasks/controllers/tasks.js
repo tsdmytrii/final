@@ -128,7 +128,6 @@ steal('jquery').then(function ($) {
                 //on submit success
                 submitHandler: function () {
                     TasksModel.changeTask($('#editTaskForm').serialize(), function (data) {
-                        console.log(data['status'])
                         //show standart view of task again with new data
                         $('#editRow' + taskId).empty().addClass('nonVisible');
                         $('.taskDate' + taskId).empty().text(data['taskDate']);
