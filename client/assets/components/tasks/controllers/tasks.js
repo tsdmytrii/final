@@ -21,11 +21,13 @@ steal('jquery').then(function ($) {
             $('#taskForm').removeAttr('novalidate');
             //custom validation method for checking deadline date
             $.validator.addMethod("DateFormat", function (value, element) {
-                    return value.match(/^\d{4}[\/\-](0?[1-9]|1[012])[\/\-](0?[1-9]|[12][0-9]|3[01])$/);
-                },
-                // error message
-                "Please enter a date in the format yyyy/mm/dd"
+                return value.match(/^\d{4}[\/\-](0?[1-9]|1[012])[\/\-](0?[1-9]|[12][0-9]|3[01])$/);
+            },
+            // error message
+            "Please enter a date in the format yyyy/mm/dd"
             );
+                
+            
 
             //we should validate each form for creation new task 
             //by name and deadlineDate fields
@@ -37,7 +39,8 @@ steal('jquery').then(function ($) {
                         name: {
                             required: true,
                             minlength: 2,
-                            maxlength: 100
+                            maxlength: 100,
+                            nameFormat: true
                         },
                         deadlineDate: {
                             required: true,
@@ -101,7 +104,8 @@ steal('jquery').then(function ($) {
                     taskName: {
                         required: true,
                         minlength: 2,
-                        maxlength: 100
+                        maxlength: 100,
+                         nameFormat: true
                     },
                     date: {
                         required: true,
@@ -202,7 +206,7 @@ steal('jquery').then(function ($) {
                         $.View(that.Class.viewpath + 'tasks.tmpl', {
                             task: data[key]
                         })
-                    )
+                        )
                 })
             }
         }

@@ -10,7 +10,6 @@ require(APPPATH . 'libraries/REST_Controller.php');
  * @author Tsybriii Dmytro <tsybriidmytro@gmail.com> 
  * @version 1.0
  */
-
 class Projects_rest extends REST_Controller {
 
     /**
@@ -19,12 +18,11 @@ class Projects_rest extends REST_Controller {
      * @todo  Creates new project,
      * return response for ajax with status or errors  
      */
-    
     public function projects_post($closed) {
         $this->load->helper('date');
         $prj = new Project();
         $prj->name = $this->post('projectName');
-         $prj->closed = $closed;
+        $prj->closed = $closed;
         $prj->creationDate = mdate("%Y-%m-%d", time());
         $prj->position = 1;
         $prj->deleted = 0;
@@ -33,7 +31,7 @@ class Projects_rest extends REST_Controller {
         if ($prj->save()) {
             $this->response(array('status' => 'Project has been successfuly added'), 200);
         } else {
-                        $this->response(array('status' => $prj->error->all), 404);
+            $this->response(array('status' => $prj->error->all), 404);
         }
     }
 
@@ -45,14 +43,33 @@ class Projects_rest extends REST_Controller {
      * and param $id - if $id = 0, it returns all row,
      * on other hand it returns only project with exact ID
      */
-    
-    public function projects_get($closed, $id) {
-        $this->load->model('proj');
-        $result = $this->proj->get_all_projects($closed, $id);
-        if ($result) {
-            $this->response($result, 200);
+    public function projects_get($id = 0, $closed = null, $cookie = 0, $order = 'creationDate', $direction = 'ask') {
+
+        $order = $this->input->get('order');
+        $direction = $this->input->get('direction');
+        $searchProperty = $this->input->get('search');
+        $searchValue = $this->input->get('value');
+
+        if ($cookie == 0) {
+            $this->response('Unauthorized', 401);
         } else {
-            $this->response(array('status' => 'Not found'), 404);
+            $this->load->model('proj');
+
+            if ($searchValue == '' & $searchProperty == '') {
+                $result = $this->proj->get_all_projects($id, $closed, $order, $direction);
+                if ($result) {
+                    $this->response($result, 200);
+                } else {
+                    $this->response(array('status' => 'Not found. Try to look in another "closed" status'), 404);
+                }
+            } else {
+                $result = $this->proj->get_search($closed, $searchProperty, $searchValue, $order, $direction);
+                if ($result) {
+                    $this->response($result, 200);
+                } else {
+                    $this->response(array('status' => 'Not found. Try to look in another "closed" status'), 404);
+                }
+            }
         }
     }
 
@@ -62,14 +79,13 @@ class Projects_rest extends REST_Controller {
      * @todo  Deletes project by ID. Nothing special
      * return response for ajax with status or errors  
      */
-    
     public function projects_delete($id) {
         $prj = new Project();
         $prj->where('id', $id)->get();
         $prj->deleted = '1';
         if ($prj->save()) {
             $this->response(array('status' => 'Project has been succesfuly deleted',
-                                    'id' => $id), 200);
+                'id' => $id), 200);
         } else {
             $this->response(array('status' => $prj->error->all), 404);
         }

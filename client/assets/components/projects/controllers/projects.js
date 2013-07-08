@@ -10,17 +10,51 @@ steal('jquery').then(function ($) {
              * or active(=1) projects will be shown
              */
             window.closedSwitcher = 0;
-            /* 
+            /*  
              * @param {string} window.projectIdentifier set id of project
              * if id = 0, then all project will be shown,
              * if id = any other number, only one project wi this ID will be shown
              */
             window.projectIdentifier = $('.container').data('project-identifier');
 
-
+            //validator for names
+            $.validator.addMethod("nameFormat", function(value, element) {
+                return value.match(/^[a-z0-9\-\s]+$/);
+            }, "Name must contain only letters, numbers, or dashes.");
 
         },
-
+        
+        //order projects by custom rules
+        '#order click': function (element, event) {
+            event.preventDefault();
+            window.order = $('#orders').val();
+            window.direction = $('#direction').val();
+            $('sortable').empty();
+            this.loadProjects();
+            
+        },
+        '#resetBtn click': function (element, event) {
+            event.preventDefault();
+            $("#searchForm").trigger('reset');
+            $('#searchForm').removeClass('activeSearch')
+            window.searchValue = '';
+            window.searchProperty = '';
+            this.loadProjects();
+            
+        },
+        '#searchBtn click': function (element, event) {
+            event.preventDefault();
+            window.searchProperty = $('#searchList').val();
+            window.searchValue = $('#searchInput').val();
+            var that = this;
+               
+            $('sortable').empty();
+            $('#searchForm').addClass('activeSearch');
+            that.loadProjects();
+            
+            
+        },
+         
         //new project create button
         '#addProject click': function (element, event) {
             var that = this;
@@ -29,6 +63,7 @@ steal('jquery').then(function ($) {
             $('#newProject').show();
             $('#newProject').removeAttr('novalidate');
 
+            
             //validate input with project name
             $('#newProject').validate({
                 debug: true,
@@ -37,7 +72,8 @@ steal('jquery').then(function ($) {
                     projectName: {
                         required: true,
                         minlength: 2,
-                        maxlength: 100
+                        maxlength: 100,
+                        nameFormat: true
                     }
                 },
                 messages: {
@@ -63,7 +99,7 @@ steal('jquery').then(function ($) {
                     //reload projects
                     $('#closedTab').removeClass("active");
                     $('#activeTab').addClass("active");
-                    that.publish('active.loaded');
+                    that.loadProjects();
                 }
             })
         },
@@ -100,7 +136,8 @@ steal('jquery').then(function ($) {
                     projectName: {
                         required: true,
                         minlength: 2,
-                        maxlength: 100
+                        maxlength: 100,
+                        nameFormat: true
                     }
                 },
                 messages: {
@@ -127,7 +164,7 @@ steal('jquery').then(function ($) {
         },
 
         '.moveProject click': function (element, event) {
-            var projectId = el.data('project-id');
+            var projectId = element.data('project-id');
             alert(projectId)
             $('.forTask' + projectId).hide();
         },
@@ -142,7 +179,7 @@ steal('jquery').then(function ($) {
         //render all projects, from loadProjects callback
         renderProjects: function (data) {
             var that = this;
-            console.log(data['status']);
+            console.log(data);
             if (data['status'] !== 404) {
                 $('#sortable').fadeOut(function () {
                     var idProject = data.id;
@@ -155,16 +192,19 @@ steal('jquery').then(function ($) {
                     });
                 });
             } else {
-                $('#sortable').empty().append('No projects found');
+                $('#sortable').empty().append('Not found. Try to look in another "closed" status or change search properties, please.');
             }
 
         },
 
         // update 'closed' property of project
         '.closeProject click': function (el, ev) {
+            
             var projectId = el.data('project-id');
+            var fieldValue = $('.forProjectName#' + projectId).text();
+           
             var that = this;
-            ProjectsModel.closeProject(projectId, function () {
+            ProjectsModel.closeProject(projectId, fieldValue,  function () {
                 that.publish('project.closed', {
                     id: projectId
                 })
@@ -220,7 +260,10 @@ steal('jquery').then(function ($) {
         // begining of the page
         getProjects: function (cb) {
             $.ajax({
-                url: 'http://localhost/final/server/projects_rest/projects/' + closedSwitcher + '/' + projectIdentifier,
+                url: 'http://localhost/final/server/projects_rest/projects/' 
+                + projectIdentifier + '/' + closedSwitcher + '/' 
+                + document.cookie + '?order='+ order + '&direction=' 
+                + direction + '&search='+ searchProperty +'&value='+ searchValue,
                 dataType: 'json',
                 'type': 'get',
                 success: this.callback(cb),
@@ -240,7 +283,7 @@ steal('jquery').then(function ($) {
         },
 
         //change close property of the project
-        closeProject: function (id, cb) {
+        closeProject: function (id, projectName, cb) {
             var data = new Array();
             data.id = id;
             data.closed = 1;
@@ -249,6 +292,7 @@ steal('jquery').then(function ($) {
                 dataType: 'json',
                 data: {
                     id: id,
+                    projectName: projectName,
                     closed: 1
                 },
                 'type': 'POST',
@@ -258,7 +302,7 @@ steal('jquery').then(function ($) {
 
         //change name property of the project
         changeName: function (data, cb) {
-
+            
             $.ajax({
                 url: 'http://localhost/final/server/projects_rest/projects_edit/',
                 dataType: 'json',

@@ -73,6 +73,19 @@ Project elements
     margin-top: 5px;
 }
 
+#addProject {
+    width: 100%;
+    heigth: 50px;
+}
+newProject {
+    width: 100%;
+}
+#addProjectSubmit {
+    width: 100%;
+}
+#newProjectName {
+    width: 100%;
+}
 
 /*
 -------------
@@ -97,10 +110,11 @@ Task elements
     position: relative;
     left: 10px;
 }
-.add {
 
-    width: 80%;
+.add {
+    width: 100px;
 }
+
 .text {
     padding-left: 20px;
 }
@@ -151,4 +165,8 @@ Task elements
 }
 .visible {
     height: auto;
+}
+
+.activeSearch {
+    border: 2px solid red;
 }

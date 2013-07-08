@@ -29,7 +29,7 @@ class Tasks_rest extends REST_Controller {
         if ($result) {
             $this->response($result, 200);
         } else {
-            $this->response("error", 404);
+            $this->response("No tasks yet", 404);
         }
     }
 

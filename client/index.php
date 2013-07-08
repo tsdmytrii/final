@@ -49,15 +49,46 @@
                 <div id="noti" class="span2">
                     <div id="validateErrors" class="span2 notification"></div>
                 </div>
-                
+
                 <!--<div id="notif" class="span2 notification"></div>-->
             </header>
             <!--for tabs-->
             <nav id="mainNav" class="row">
-                <div class="span3">
+                <div class="span2">
                     <a id="activeTab" class="btn" href="#"> Active </a>
                     <a id="closedTab" class="btn" href="#"> Closed </a>
                 </div>
+               <div class="span4">
+                    <form id="orderForm" class="form-inline">
+
+                        <select id="orders" class="span2">
+                            <option> name </option>
+                            <option> id </option>
+                            <option> creationDate </option>
+                        </select>
+                        <select id="direction" class="span1">
+                            <option> asc </option>
+                            <option> desc </option>
+                        </select>
+
+                        <input class="btn" type="submit" value="order" id="order"> 
+                        
+                    </form> 
+                   </div>
+                   <div class="span6">
+                    <form id="searchForm" class="form-inline">
+                       <select id="searchList" class="span2">
+                            <option> name </option>
+                            <option> id </option>
+                            <option> creationDate </option>
+                        </select>
+                        <input class="span1" type="text" placeholder="Property value" name="search" id="searchInput"> 
+                        <input class="btn" type="submit" value="search" id="searchBtn"> 
+                        <button id="resetBtn" class="btn"> Cancel search filter</button>
+                    </form>
+                       
+                  </div>
+
                 <!--for projects-->
                 <ul class="span12" id="sortable">
                 </ul>
@@ -65,7 +96,7 @@
                     <button id="addProject"> Add project </button>
                     <form id="newProject" class="projectForm" action="">
                         <input type="text" name="projectName" placeholder="Enter new project name" id="newProjectName">
-                        <input type="submit" name="submit" value="Add project">
+                        <input class="btn" id="addProjectSubmit" type="submit" name="submit" value="Add project">
                     </form>
                 </div>                 
         </div>

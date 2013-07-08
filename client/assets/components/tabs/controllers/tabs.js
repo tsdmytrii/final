@@ -5,9 +5,17 @@ steal('jquery').then(function ($) {
     }, {
         init: function () {
             var that = this;
+            document.cookie = 1;
+            window.order = 'name';
+            window.direction = 'asc';
+            window.searchValue = '';
+            window.searchProperty = '';
             $('#activeTab').addClass("active");
             that.publish('active.loaded');
-
+            
+            // set cookie, which will be inserted in ajax calls as 
+            // identificator of sending request from site
+            
             $("#sortable").sortable();
             //  $( "#sortable" ).disableSelection();
         },

@@ -1,11 +1,12 @@
 steal('components/tabs',
     'funcunit', function(){
-        module('test of tweets components');
+        module('test tab');
+        S.open('http://localhost/final/server/projects/');
+    })
     
-    test('tabs_chek')
-//        test('table_check', function() {
-//            S.open('http://localhost/task/index.html');     
-//            S('.table').visible(function(){
+        test('table_check', function() {
+                 
+//            S('.').visible(function(){
 //                equals(S('.table tbody tr').size(), 5, "there are 5 results in the table")
 //            })
 //            S.wait(1000)
@@ -13,7 +14,7 @@ steal('components/tabs',
 //            S('.table').visible(function(){
 //                equals(S('.table tbody tr').size(), 5, "there are 5 results in the table")
 //            })
-//        })
+        })
 //
 //        test('search_table_check', function(){
 //            S.wait(1000)
@@ -46,7 +47,7 @@ steal('components/tabs',
 
 
 
-    })
+    
         
         
         
